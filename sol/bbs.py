@@ -4,7 +4,10 @@ import math
 
 import re    # for splitting input
 
+from file_utils import remove_file, rename_file, DISK_PATH
+
 ######### CONSTANTS (unlimited number allowed) #######################
+PATH = os.path.join(DISK_PATH, "") # path to store files (DO NOT CHANGE)
 SEP = "====" # used to separate messages when printing them out
 
 
@@ -187,11 +190,11 @@ def print_summary(term = "") -> str:
 # Our test cases will look like this, with assertions intertwined
 
 def sample():
-    connect("kathi")
+    connect("kathi", True)
     post_msg("post homework?", "is the handout ready?")
     post_msg("vscode headache", "reinstall to fix the config error")
     soft_disconnect()  # keep the python programming running and connect another user
-    connect("nick")
+    connect("nick", False)
     print_summary("homework")
     find_print_msg(1)
     post_msg("handout followup", "yep, ready to go")

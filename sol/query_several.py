@@ -1,10 +1,12 @@
 import parse_utils
 
 class QuerySeveral:
+    word_freq_dict = {} # the dictionary of words to dict of ids to counts
+    id_title_dict = {}  # the dictionary of ids to titles
 
+    
     def __init__(self, wikifile):
-        """ constructor """
-        # TODO: Fill in!
+        parse_utils.parse(wikifile, self.process_page)
 
 
     def process_page(self, wiki_page:str):
@@ -12,12 +14,30 @@ class QuerySeveral:
         reads one wiki/xml file, processes each page, populating the
         dictionary that maps words->page_id->frequency counts
         
-        Parameters:
-        wiki_page -- the path to an xml file with pages (each with title, 
-                     id, and text sections)
+        parameters:
+            wiki_page   the path to an xml file with pages (each with title, 
+                        id, and text sections)
         """
+        
+        page_id = int(wiki_page.find("id").text)
+        page_title = wiki_page.find("title").text.strip()
+        page_text = wiki_page.find("text").text.strip()
+        if wiki_page.find("text").text is None: page_text = ""
+        
+        self.id_title_dict[page_id] = page_title
 
-        # TODO: Fill in!
+        tokens = parse_utils.get_tokens(page_title + " " + page_text)
+        
+        for word in tokens:
+            if parse_utils.word_is_link(word):
+                # split link into the text and the destination, but only process the text
+                # TODO: Fill in!
+
+                # include link text because it's part of the page text
+                # TODO: Fill in!
+            else:
+                # for non-links, just record its presence
+                # TODO: Fill in!
         
 
     def query(self, search_term:str, format="title") -> list:
@@ -39,6 +59,24 @@ class QuerySeveral:
         if format not in ["id", "title"]:
             raise ValueError("Invalid results format " + format)
         
-        # TODO: Fill in!
+        term_low = search_term.lower()
+        if term_low in parse_utils.STOP_WORDS:
+            print("WARNING: STOP WORD isn't indexed -- " + search_term)
+            return []
+
+        term_low = parse_utils.stem_and_stop(term_low)
+        if term_low in self.word_freq_dict:
+            # if the term is in the dictionary, get the list of ids and sort it
+            # TODO: Fill in!
+
+            # If our query is for ids, just return the sorted list of ids
+            if format=="id": 
+                # TODO: Fill in!
+            # If our query is for titles, convert the sorted list of ids to titles
+            elif format=="title": 
+                # TODO: Fill in!
+            
+        else: # term not in dictionary
+            return []
         
 
