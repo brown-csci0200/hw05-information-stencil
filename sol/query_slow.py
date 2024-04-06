@@ -50,7 +50,7 @@ class QuerySlow:
 
 # this is a sample of how we might run/test this system
 def sample_run():
-    qs1 = QuerySlow('wikis/Example1.xml')
+    qs1 = QuerySlow('../wikis/Example1.xml')
 
     # "A" is a stop word so it won't yield any results
     assert(qs1.query("A")==[])
@@ -58,7 +58,11 @@ def sample_run():
     # "G" is the title of page 1/G and the link text of page 3/C
     result = qs1.query("G")
     assert("G" in result)
-    assert("C" in result)
+    # query_slow does not parse links, so C would show up in the result
+    # even though "G" is a link URL, not link text.
+    # in your implementation of query_several, pages that only contain
+    # search terms in link TITLES/URLs should NOT appear.
+    # assert("C" not in result)
     assert(result.__len__() == 2)
 
     # "Z" isn't in the document 
@@ -67,4 +71,4 @@ def sample_run():
     
 
 # uncomment the next line to have the sample run automatically when you run the file
-# sample_run()
+sample_run()

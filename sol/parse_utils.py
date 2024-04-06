@@ -65,8 +65,8 @@ def split_link(link: str) -> "tuple[list[str], str]":
     # text and title differ
     if '|' in link_stripped_brackets:
         link_split = link_stripped_brackets.split("|")
-        title_raw = link_split[0]
-        text_raw = link_split[1]
+        text_raw = link_split[0]
+        title_raw = link_split[1]
 
     return (re.findall(is_word_regex, text_raw), title_raw.strip())
 
