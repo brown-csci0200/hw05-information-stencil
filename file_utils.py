@@ -3,21 +3,21 @@
 #########################################
 
 import os
+import pathlib
 
 # DO NOT CHANGE THE VALUES OF THESE CONSTANTS
-EXPECTED_CWDS = {"sol", "test"}
-DISK_PATH = "disk"
+DISK_PATH = pathlib.Path("disk")
+
 
 def _is_safe_path(file_path: os.DirEntry[str] | str):
     try:
         working_path = os.getcwd()
-        working_dir = working_path.split(os.sep)[-1]
-        if isinstance(file_path, os.DirEntry):
-            file_path = file_path.path
-        file_path_dir = file_path.split(os.sep)[-2]
-        return working_dir in EXPECTED_CWDS and file_path_dir == DISK_PATH
+        _file_path = pathlib.Path(file_path)
+        _abs_file_path = _file_path.absolute()
+        return _abs_file_path.is_relative_to(working_path)
     except:
         return False
+
 
 def remove_file(file_path: os.DirEntry[str] | str):
     '''
@@ -46,3 +46,10 @@ def rename_file(old_path: os.DirEntry[str] | str, new_path: os.DirEntry[str] | s
     else:
         raise FileNotFoundError(f"Files cannot be replaced outside of disk directory: {old_path}")
   
+
+def clean_disk_directory():
+    path = pathlib.Path(DISK_PATH)
+    for f in path.glob("*"):
+        if f.stem == ".keep": # Leave this blank file, which keeps git from deleting the directory
+            continue
+        remove_file(f)

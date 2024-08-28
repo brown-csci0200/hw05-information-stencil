@@ -1,34 +1,41 @@
-import os    # for file handling  
-import sys   # for writing/printing messages
+import os       # for file handling  
+import sys      # for writing/printing messages
 import math
+import pathlib  # Helpers for working with paths
 
 import re    # for splitting input
 
-from file_utils import remove_file, rename_file, DISK_PATH
+from file_utils import remove_file, rename_file, clean_disk_directory
+######### STENCIL CONSTANTS (DO NOT CHANGE) ######################
+DISK_PATH = pathlib.Path("disk") # path to store files, relative to current directory
+PRINT_SEP = "====" # used to separate messages when printing them out
 
-######### CONSTANTS (unlimited number allowed) #######################
-PATH = os.path.join(DISK_PATH, "") # path to store files (DO NOT CHANGE)
-SEP = "====" # used to separate messages when printing them out
+######### YOUR CONSTANTS (unlimited number allowed) #######################
+# (Add your own constants (if any) here!)
 
 
-######### VARIABLES (at most 10 active at any time) ##################
+######### GLOBAL VARIABLES (at most 10 active at any time) ##############
+# (Add your own global variables (if any) here!)
 
 ######### EXCEPTIONS #################################################
 class MessagesFullExn(Exception):
     pass
 
-######### SYSTEM SETUP, SHUTDOWN, AND RESET ##########################
 
-def connect(username: str, restart: bool) -> None:
+####### CORE SYSTEM OPERATIONS ####################################
+
+def connect(username: str) -> None:
     """
     Starts a connection to the system by the named user
 
     Parameters:
     username -- the name of the user who is connecting (they will be the
                 poster of messages added until they disconnect)
-    restart -- if the program has just connected to the server
     """
     # TODO: Fill in!
+    # Note:  don't feel like you need to fill these in in order!  
+    # Think about how you'll store messages first, and then consider
+    # what connect()/disconnect() etc need to do.
 
 def disconnect() -> None:
     """
@@ -38,102 +45,26 @@ def disconnect() -> None:
     """
     # TODO: Fill in!
 
-def soft_disconnect() -> None:
+def switch_user(username: str) -> None:
     """
-    Disconnects the current user (this will depend on your design)
+    Switch to a different user (without disconnecting)
     """
     # TODO: Fill in!
 
 
-def clean_reset(msg_max_val=200, msg_per_file_val=10) -> None:
+def clean_reset() -> None:
     """
     Deletes all the disk files to start a clean run of the system.
-    Supports setting different constant values.
-    Useful for testing.
+    THIS FUNCTION WILL BE RUN BEFORE EACH TEST.  Use it to reset globals,
+    constants, etc. back to a starting state when the BBS is empty.
 
-    Parameters:
-    msg_max_val -- max number of messages system can hold
-    msg_per_file_val -- max number of messages each file can hold
-
+    We've started this function for you:  clean_disk_directory()
+    removes any files in DISK_PATH.  From here, you should also modify this
+    function to reset any globals you use back to their starting state.
     """
-    
-    # TODO: Fill in with what makes sense for your design.
-    # It might relate to how you store your necessary info
-    # between (dis)connections to the server!
-    # Feel free to pass in different values when testing for clean_reset,
-    # 200 and 10 are just the default. (You do not need to edit
-    # the method header to do this. Just pass different values in when calling)
+    clean_disk_directory() # DO NOT REMOVE THIS
 
-
-######## DESIGN HELPERS ##########################################
-def write_msg(f, id: int, who: str, subj: str, msg: str, labeled=False) -> None:
-    """
-    Writes a message to the given file handle. e.g., If you want to print to a
-    file, open the file and use fh from the following code as the first argument
-
-           with open(FILENAME, mode) as fh
-
-    If you want to print to the console/screen, you can pass the following as 
-    the first argument
-
-            sys.stdout
-
-    msg can be passed as false to suppress printing the text/body of the message.
-
-    Parameters:
-    f -- file descriptor
-    id -- message id
-    who -- poster
-    subj -- subject line
-    msg -- body text
-    labeled -- boolean deciding if labels should also be used
-    """
-    f.write(SEP + "\n")
-    f.write("ID: " + str(id) + "\n")
-    if labeled:
-        f.write(who)
-        f.write(subj)
-        if msg: f.write(msg)
-    else: # needs labels
-        f.write("Poster: " + who + "\n")
-        f.write("Subject: " + subj + "\n")
-        if msg: f.write("Text: " + msg + "\n")
-
-
-def split_string_exclude_quotes(s) -> list[str]:
-    """
-    Splits a given string and splits it based on spaces, while also grouping
-    words in double quotes together.
-
-    Parameters:
-    s -- string to be split
-    Returns:
-    A list of strings after splitting
-    Example:
-    'separate "these are together" separate` --> ["separate", "these are together", "separate"]
-    """
-    # This pattern matches a word outside quotes or captures a sequence of characters inside double quotes without including the quotes
-    pattern = r'"([^"]*)"|(\S+)'
-    matches = re.findall(pattern, s)
-    # Each match is a tuple, so we join non-empty elements
-    return [m[0] if m[0] else m[1] for m in matches]
-
-
-####### CORE SYSTEM OPERATIONS ####################################
-
-
-def show_menu(): 
-    """
-    Prints the menu of options.
-    """
-    print("Please select an option: ")
-    print("  - type A <subj> <msg> to add a message")
-    print("  - type D <msg-num> to delete a message")
-    print("  - type S for a summary of all messages")
-    print("  - type S <text> for a summary of messages with <text> in title or poster")
-    print("  - type V <msg-num> to view the contents of a message")
-    print("  - type X to exit (and terminate the Python program)")
-    print("  - type softX to exit (and keep the Python program running)")
+    # TODO:  If you need to reset other global variables, reset them here!
 
 
 def post_msg(subj: str, msg: str) -> None:
@@ -185,28 +116,72 @@ def print_summary(term = "") -> str:
     # TODO: Fill in!
 
 
-############### SAMPLE FROM HANDOUT ######################
 
-# Our test cases will look like this, with assertions intertwined
+######## HELPERS ##########################################
+def print_msg(id: int, who: str, subj: str, msg: str) -> None:
+    """
+    Print out a message--use this function to print out messages
+    to the terminal in the required format. 
+    (We need everyone to use the same format when printing so we
+    can test your work!)
 
-def sample():
-    connect("kathi", True)
-    post_msg("post homework?", "is the handout ready?")
-    post_msg("vscode headache", "reinstall to fix the config error")
-    soft_disconnect()  # keep the python programming running and connect another user
-    connect("nick", False)
-    print_summary("homework")
-    find_print_msg(1)
-    post_msg("handout followup", "yep, ready to go")
-    remove_msg(1)
-    print_summary()
-    disconnect()
+
+    Parameters:
+    id -- message id
+    who -- poster
+    subj -- subject line
+    msg -- body text
+    """
+    print(PRINT_SEP)
+    print("ID: " + str(id) + "\n")
+    print("Poster: " + who + "\n")
+    print("Subject: " + subj + "\n")
+    print("Message: " + msg + "\n")
+    print(PRINT_SEP)
+
+
+def split_string_exclude_quotes(s) -> list[str]:
+    """
+    Splits a given string and splits it based on spaces, while also grouping
+    words in double quotes together.
+
+    Parameters:
+    s -- string to be split
+    Returns:
+    A list of strings after splitting
+    Example:
+    'separate "these are together" separate` --> ["separate", "these are together", "separate"]
+    """
+    # This pattern matches a word outside quotes or captures a sequence of characters inside double quotes without including the quotes
+    pattern = r'"([^"]*)"|(\S+)'
+    matches = re.findall(pattern, s)
+    # Each match is a tuple, so we join non-empty elements
+    return [m[0] if m[0] else m[1] for m in matches]
+
+
 
 ############### MAIN PROGRAM ############################
+# The following functions are used when running the program interactively,
+# which you can do by running the following in your terminal:
+#  python bbs.py  (or python3 bbs.py)
+# This funs the main() function, which creates a REPL for a user
+# to interact with your BBS.
 
-# If you want to run the code interactively instead, use the following:
+def show_menu(): 
+    """
+    Prints the menu of options.
+    """
+    print("Please select an option: ")
+    print("  - type A <subj> <msg> to add a message")
+    print("  - type D <msg-num> to delete a message")
+    print("  - type S for a summary of all messages")
+    print("  - type S <text> for a summary of messages with <text> in title or poster")
+    print("  - type V <msg-num> to view the contents of a message")
+    print("  - type X to exit (and terminate the Python program)")
+    print("  - type U to switch user")
+    print("  - type R to to reset the BBS, deleting all posts!")
 
-def start_system():
+def main():
     """
     Loop to run the system. It does not do error checking on the inputs that
     are entered (and you do not need to fix that problem)
@@ -214,7 +189,7 @@ def start_system():
     
     print("Welcome to our BBS!")
     print("What is your username?")
-    connect(input(), True)
+    connect(input())
 
     done = False
     while(not done):
@@ -238,14 +213,18 @@ def start_system():
                 disconnect()
                 done = True
                 exit()
-            case "SOFTX":
-                soft_disconnect()
-
-                # restart menu 
+            case "R":
+                clean_reset()
+                print("System reset!")
+            case "W":
+                # restart menu
                 print("What's your username?")
-                connect(input(), False)
+                switch_user(input())
             case _: 
                 print("Unknown command")
 
-# uncomment next line if want the system to start when the file is run
-# start_system()
+
+# This runs the main function when bbs.py 
+# is run directly from the terminal 
+if __name__ == "__main__":
+    main()
