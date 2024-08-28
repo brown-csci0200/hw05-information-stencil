@@ -37,3 +37,9 @@ __pycache__/
 
 /disk/*
 !/disk/.keep
+
+
+# Virtual environment directories
+/.venv
+/env
+/venv
