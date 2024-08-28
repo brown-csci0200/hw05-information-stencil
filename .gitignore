@@ -35,5 +35,5 @@ __pycache__/
 # Output of pytest unit tests
 **/results.json
 
-disk/
-!disk/.keep
+/disk/*
+!/disk/.keep
