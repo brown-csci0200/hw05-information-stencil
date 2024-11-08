@@ -1,3 +1,4 @@
+# Example tests for querier
 import pathlib
 import pytest
 
@@ -6,7 +7,6 @@ import query_several as qs
 
 WIKIS_DIR = pathlib.Path("wikis")
 CS200_WIKI = WIKIS_DIR/"CS200Wiki.xml"
-
 
 # Example query using the slow querier
 def test_example_slow():

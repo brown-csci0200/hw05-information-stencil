@@ -1,3 +1,5 @@
+# query_several.py - Improved querier 
+
 import parse_utils
 
 class QuerySeveral:

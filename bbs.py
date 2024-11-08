@@ -1,3 +1,7 @@
+# bbs.py
+# Implementation for Bulletin Board System (BBS)!
+#
+
 import os       # for file handling  
 import sys      # for writing/printing messages
 import math

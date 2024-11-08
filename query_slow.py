@@ -1,3 +1,11 @@
+# query_slow.py:  Initial querier version
+#
+# This file contains a working version of the querier, 
+# so you can understand how it works.  For details, see the handout.
+#
+# You should not modify this file.
+#
+
 import pathlib
 from parse_utils import parse
 

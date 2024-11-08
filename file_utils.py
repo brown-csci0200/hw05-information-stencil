@@ -1,13 +1,17 @@
-#########################################
+# file_utils.py
+# This files contains helpers for working with files
+# in the BBS system
+#
+# ########################################
 # DO NOT MODIFY ANYTHING IN THIS FILE
-#########################################
+# ########################################
+#
 
 import os
 import pathlib
 
 # DO NOT CHANGE THE VALUES OF THESE CONSTANTS
 DISK_PATH = pathlib.Path("disk")
-
 
 def _is_safe_path(file_path: os.DirEntry[str] | str | pathlib.Path):
     try:
@@ -38,7 +42,7 @@ def file_exists(file_path: os.DirEntry[str] | str | pathlib.Path) -> bool:
 def remove_file(file_path: os.DirEntry[str] | str | pathlib.Path):
     '''
     Removes a file from the disk directory.
-    If the file is not in the DISK_PATH subdirectory of the EXPECTED_CWD directory, a FileNotFoundError is raised.
+    Raises an error if the file is not within the DISK_PATH directory.
 
     Parameters:
     file_path (str): The path to the file to be removed
@@ -51,7 +55,7 @@ def remove_file(file_path: os.DirEntry[str] | str | pathlib.Path):
 def rename_file(old_path: os.DirEntry[str] | str | pathlib.Path, new_path: os.DirEntry[str] | str | pathlib.Path):
     '''
     Renames a file in the disk directory.
-    If the file is not in the DISK_PATH subdirectory of the EXPECTED_CWD directory, a FileNotFoundError is raised.
+    Raises an error if the file is not within the DISK_PATH directory.
 
     Parameters:
     old_path (str): The path to the file to be renamed

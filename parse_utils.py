@@ -1,3 +1,7 @@
+# parse_utils.py
+#
+# This file contains helpers for parsing wiki files.
+
 import math
 import re
 import sys

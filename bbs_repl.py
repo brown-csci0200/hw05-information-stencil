@@ -48,7 +48,8 @@ def main():
         match choice[0].upper():
             case "A": 
                 if len(choice) != 3:
-                    print("Usage:  A <subj> <msg> [[if <msg> is more than one word, put it in \"double quotes\"")
+                    print("Usage:  A <subj> <msg>")
+                    print("(If <msg> is more than one word, put it in \"double quotes\")")
                     continue
                 try:
                     new_id = bbs.post_msg(choice[1], choice[2]) # subject, text
