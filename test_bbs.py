@@ -3,6 +3,7 @@ import pytest
 
 
 import bbs
+import file_utils
 from file_utils import DISK_PATH
 
 
@@ -22,26 +23,24 @@ def setup_function(request):
 def test_example():
     assert 2 == 1 + 1
 
-
-############### SAMPLE FROM HANDOUT ######################
+############### SAMPLE TEST FROM HANDOUT ######################
 
 # Our test cases will look like this, with assertions intertwined
 
-# def sample():
-#     bbs.connect("kathi")
-#     bbs.post_msg("post homework?", "is the handout ready?")
-#     bbs.post_msg("vscode headache", "reinstall to fix the config error")
+def test_sample_From_handout():
+    bbs.connect("kathi")
+    msg_id = bbs.post_msg("post homework?", "is the handout ready?")
+    bbs.post_msg("vscode headache", "reinstall to fix the config error")
 
-#     s1 = bbs.print_summary("headache")
-#     assert "Poster: kathi" in s1
+    s1 = bbs.print_summary("headache")
+    assert "Poster: kathi" in s1
 
-#     bbs.switch_user("nick")
-#     bbs.find_print_msg(1)
-#     # assert ???  (What might we test about this message?)
+    bbs.switch_user("nick")
+    bbs.find_print_msg(msg_id)
+    # assert ???  (What might we test about this message?)
 
-#     bbs.post_msg("handout followup", "yep, ready to go")
-#     bbs.remove_msg(1)
-#     s2 = bbs.print_summary("followup")
-#     # assert ???  (What might we test at this point?)
-    
-#     bbs.disconnect()
+    bbs.post_msg("handout followup", "yep, ready to go")
+    bbs.remove_msg(msg_id)
+    s2 = bbs.print_summary("followup")
+    # assert ???  (What might we test at this point?)
+

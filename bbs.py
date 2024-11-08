@@ -6,6 +6,7 @@ import pathlib  # Helpers for working with paths
 import re    # for splitting input
 
 from file_utils import remove_file, rename_file, clean_disk_directory
+
 ######### STENCIL CONSTANTS (DO NOT CHANGE) ######################
 DISK_PATH = pathlib.Path("disk") # path to store files, relative to current directory
 PRINT_SEP = "====" # used to separate messages when printing them out
@@ -22,63 +23,81 @@ class MessagesFullExn(Exception):
     pass
 
 
-####### CORE SYSTEM OPERATIONS ####################################
+####### CORE API FUNCTIONS ####################################
 
-def connect(username: str) -> None:
+# Note:  don't feel like you need to fill these in in order!  
+# Think about how you'll store messages first, and then consider
+# what connect()/disconnect() etc need to do.
+
+def connect(username: str):
     """
-    Starts a connection to the system by the named user
+    Starts a connection to the system by the named user.
+
+    You may assume the username is well-formed (ie, within the character
+    limits).
 
     Parameters:
     username -- the name of the user who is connecting (they will be the
                 poster of messages added until they disconnect)
     """
     # TODO: Fill in!
-    # Note:  don't feel like you need to fill these in in order!  
-    # Think about how you'll store messages first, and then consider
-    # what connect()/disconnect() etc need to do.
+    raise NotImplementedError("TODO") # Remove this when you're ready to test!
 
-def disconnect() -> None:
+def disconnect():
     """
-    Disconnects the current user (this will depend on your design) and saves
-    data as necessary so that the system can resume even if the Python program
-    is restarted 
+    Disconnects the current user and saves data as necessary so that the system
+    can resume even if the Python program is restarted.
+    
+    What you do here will depend on your design:
+     - You may want to wait to implement this until you implement post_msg
+     - It's not wrong if this function does nothing (your design might do the
+       same work in other functions)
     """
     # TODO: Fill in!
 
-def switch_user(username: str) -> None:
+def switch_user(username: str):
     """
     Switch to a different user (without disconnecting)
+
+    You may assume the username is well-formed (ie, within the character limits)
     """
     # TODO: Fill in!
+    raise NotImplementedError("TODO") # Remove this when you're ready to test!
 
 
-def clean_reset() -> None:
+def clean_reset():
     """
-    Deletes all the disk files to start a clean run of the system.
+    Deletes all the disk files to start a clean run of the system.  
     THIS FUNCTION WILL BE RUN BEFORE EACH TEST.  Use it to reset globals,
     constants, etc. back to a starting state when the BBS is empty.
 
-    We've started this function for you:  clean_disk_directory()
-    removes any files in DISK_PATH.  From here, you should also modify this
-    function to reset any globals you use back to their starting state.
+    We've started this function for you:  clean_disk_directory() removes any
+    files in DISK_PATH.  In addition, you should add to this function to reset
+    any globals you use back to their starting state.
     """
     clean_disk_directory() # DO NOT REMOVE THIS
 
     # TODO:  If you need to reset other global variables, reset them here!
 
 
-def post_msg(subj: str, msg: str) -> None:
+def post_msg(subj: str, msg: str) -> int:
     """
     Stores a new message (however it makes sense for your design). Your code
     should determine what ID to use for the message, and the poster of the
-    message should be the user who is connected when this function is called
+    message should be the user who is connected when this function is called.
+
+    You can assume that both the subj and msg fields are within
+    the character limits.
 
     Parameters:
     subj -- subject line
     msg -- message body
+
+    Returns:  the ID number of the message created (for autograder)
     """
    
     # TODO: Fill in!
+    raise NotImplementedError("TODO") # Remove this when you're ready to test!
 
 
 def find_print_msg(id: int) -> str:
@@ -87,63 +106,88 @@ def find_print_msg(id: int) -> str:
 
     Parameters:
     id -- message ID
+
     Returns:
-    The string to be printed (for autograder).
+    The string to be printed (for autograder).  If the message is not found,
+    returns an empty string.
     """
 
     # TODO: Fill in!
+    raise NotImplementedError("TODO") # Remove this when you're ready to test!
 
 
-def remove_msg(id: int) -> None:
+def remove_msg(id: int):
     """
     Removes a message from however your design is storing it. A removed message
     should no longer appear in summaries, be available to print, etc.
+
+    You may assume the message exists.
     """
 
     # TODO: Fill in!
+    raise NotImplementedError("TODO") # Remove this when you're ready to test!
 
 
-def print_summary(term = "") -> str:
+def print_summary(term="") -> str:
     """
     Prints summary of messages that have the search term in the who or subj fields.
     A search string of "" will match all messages.
     Summary does not need to present messages in order of IDs.
 
     Returns:
-    A string to be printed (for autograder).
+    A string to be printed with the summary text (for autograder)
+    If there are no messages, return an empty string.
     """
     
     # TODO: Fill in!
+    raise NotImplementedError("TODO") # Remove this when you're ready to test!
+
+
+
 
 
 
 ######## HELPERS ##########################################
-def print_msg(id: int, who: str, subj: str, msg: str) -> None:
-    """
-    Print out a message--use this function to print out messages
-    to the terminal in the required format. 
-    (We need everyone to use the same format when printing so we
-    can test your work!)
 
+def format_msg_for_print(id: int, who: str, subj: str, msg: str=None) -> str:
+    """
+    Create a string representing a message in the correct format to print
+    to the terminal:
+       - if msg=None, only summary is printed.
+       - if print=True, prints the message to a terminal as well
+
+    DO NOT MODIFY THIS FUNCTION.  We need everyone to use the same format when
+    printing so we can test your work in the autograder!
 
     Parameters:
     id -- message id
     who -- poster
     subj -- subject line
-    msg -- body text
+    msg -- body text (optional, only summary printed if set to None)
     """
-    print(PRINT_SEP)
-    print("ID: " + str(id) + "\n")
-    print("Poster: " + who + "\n")
-    print("Subject: " + subj + "\n")
-    print("Message: " + msg + "\n")
-    print(PRINT_SEP)
+    output_str = ""
+    output_str += PRINT_SEP
+    output_str += f"\nID: {id}"
+    output_str += f"\nPoster: {who}"
+    output_str += f"\nSubject: {subj}\n"
 
+    if msg is not None:
+        output_str += "fMessage: {msg}\n"
+
+    output_str += PRINT_SEP
+
+    return output_str
+
+def print_msg(id: int, who: str, subj: str, msg: str=None) -> None:
+    pass
 
 def split_string_exclude_quotes(s) -> list[str]:
     """
     Splits a given string and splits it based on spaces, while also grouping
     words in double quotes together.
+
+    DO NOT MODIFY THIS FUNCTION.  This is a helper for you to use if you
+    like, but it's not required.
 
     Parameters:
     s -- string to be split
@@ -152,79 +196,10 @@ def split_string_exclude_quotes(s) -> list[str]:
     Example:
     'separate "these are together" separate` --> ["separate", "these are together", "separate"]
     """
-    # This pattern matches a word outside quotes or captures a sequence of characters inside double quotes without including the quotes
+    # This pattern matches a word outside quotes or captures a sequence of
+    # characters inside double quotes without including the quotes
     pattern = r'"([^"]*)"|(\S+)'
     matches = re.findall(pattern, s)
     # Each match is a tuple, so we join non-empty elements
     return [m[0] if m[0] else m[1] for m in matches]
 
-
-
-############### MAIN PROGRAM ############################
-# The following functions are used when running the program interactively,
-# which you can do by running the following in your terminal:
-#  python bbs.py  (or python3 bbs.py)
-# This funs the main() function, which creates a REPL for a user
-# to interact with your BBS.
-
-def show_menu(): 
-    """
-    Prints the menu of options.
-    """
-    print("Please select an option: ")
-    print("  - type A <subj> <msg> to add a message")
-    print("  - type D <msg-num> to delete a message")
-    print("  - type S for a summary of all messages")
-    print("  - type S <text> for a summary of messages with <text> in title or poster")
-    print("  - type V <msg-num> to view the contents of a message")
-    print("  - type X to exit (and terminate the Python program)")
-    print("  - type U to switch user")
-    print("  - type R to to reset the BBS, deleting all posts!")
-
-def main():
-    """
-    Loop to run the system. It does not do error checking on the inputs that
-    are entered (and you do not need to fix that problem)
-    """
-    
-    print("Welcome to our BBS!")
-    print("What is your username?")
-    connect(input())
-
-    done = False
-    while(not done):
-        show_menu()
-        whole_input = input() # read the user command
-        choice = split_string_exclude_quotes(whole_input) #split into quotes
-        match choice[0].upper():
-            case "A": 
-                post_msg(choice[1], choice[2]) # subject, text
-            case "D": 
-                remove_msg(int(choice[1]))
-            case "S": 
-                if len(choice) == 1:
-                    print_summary("")
-                else:
-                    term = choice[1]
-                    print_summary(term)
-            case "V":
-                find_print_msg(int(choice[1]))
-            case "X": 
-                disconnect()
-                done = True
-                exit()
-            case "R":
-                clean_reset()
-                print("System reset!")
-            case "W":
-                # restart menu
-                print("What's your username?")
-                switch_user(input())
-            case _: 
-                print("Unknown command")
-
-
-# This runs the main function when bbs.py 
-# is run directly from the terminal 
-if __name__ == "__main__":
-    main()

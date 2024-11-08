@@ -1,3 +1,4 @@
+import pathlib
 from parse_utils import parse
 
 class QuerySlow:
@@ -5,7 +6,7 @@ class QuerySlow:
     search_term = ''      # the search term 
     wikifile = ''         # the name of the wikifile being searched
 
-    def __init__(self, wikifile: str):
+    def __init__(self, wikifile: str | pathlib.Path):
         self.wikifile = wikifile
 
 
