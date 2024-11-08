@@ -70,5 +70,7 @@ def sample_run():
     assert(qs1.query("Z")==[])
     
 
-# uncomment the next line to have the sample run automatically when you run the file
-sample_run()
+# This runs the main function when query_slow.py 
+# is run directly from the terminal 
+if __name__ == "__name__":
+    sample_run()

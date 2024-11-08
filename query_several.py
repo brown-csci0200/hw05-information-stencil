@@ -34,10 +34,14 @@ class QuerySeveral:
                 # TODO: Fill in!
 
                 # include link text because it's part of the page text
+                
                 # TODO: Fill in!
+                pass # Placeholder statement (remove this)
             else:
                 # for non-links, just record its presence
+                
                 # TODO: Fill in!
+                pass # Placeholder statement (remove this)
         
 
     def query(self, search_term:str, format="title") -> list:
@@ -72,9 +76,11 @@ class QuerySeveral:
             # If our query is for ids, just return the sorted list of ids
             if format=="id": 
                 # TODO: Fill in!
+                pass
             # If our query is for titles, convert the sorted list of ids to titles
             elif format=="title": 
                 # TODO: Fill in!
+                pass
             
         else: # term not in dictionary
             return []
