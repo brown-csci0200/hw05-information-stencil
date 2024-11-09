@@ -44,7 +44,7 @@ def main():
     done = False
     while(not done):
         whole_input = input(prompt_str) # read the user command
-        choice = bbs.split_string_exclude_quotes(whole_input) #split into quotes
+        choice = bbs.split_string_exclude_quotes(whole_input) # split into quotes
         match choice[0].upper():
             case "A": 
                 if len(choice) != 3:

@@ -153,7 +153,7 @@ def print_summary(term="") -> str:
 
 ######## HELPERS ##########################################
 
-def format_msg_for_print(id: int, who: str, subj: str, msg: str=None) -> str:
+def format_print_msg(id: int, who: str, subj: str, msg: str=None, print=False) -> str:
     """
     Create a string representing a message in the correct format to print
     to the terminal:
@@ -168,6 +168,9 @@ def format_msg_for_print(id: int, who: str, subj: str, msg: str=None) -> str:
     who -- poster
     subj -- subject line
     msg -- body text (optional, only summary printed if set to None)
+
+    Returns:
+    string of the message in correct format (for autograder)
     """
     output_str = ""
     output_str += PRINT_SEP
@@ -176,14 +179,33 @@ def format_msg_for_print(id: int, who: str, subj: str, msg: str=None) -> str:
     output_str += f"\nSubject: {subj}\n"
 
     if msg is not None:
-        output_str += "fMessage: {msg}\n"
+        output_str += f"Message: {msg}\n"
 
     output_str += PRINT_SEP
 
+    if print:
+        print(output_str)
+
     return output_str
 
-def print_msg(id: int, who: str, subj: str, msg: str=None) -> None:
-    pass
+def print_msg(id: int, who: str, subj: str, msg: str=None) -> str:
+    """
+    Print a message to the terminal in the correct format
+    (This is just a shortcut for calling format_msg with print=True)
+
+    DO NOT MODIFY THIS FUNCTION.  We need everyone to use the same format when
+    printing so we can test your work in the autograder!
+
+    Parameters:
+    id -- message id
+    who -- poster
+    subj -- subject line
+    msg -- body text (optional, use msg=None to only print summary)
+        
+    Returns:
+    string of the message in correct format (for autograder)
+    """
+    return format_print_msg(id, who, subj, msg, print=True)
 
 def split_string_exclude_quotes(s) -> list[str]:
     """
