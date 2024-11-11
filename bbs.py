@@ -9,7 +9,7 @@ import pathlib  # Helpers for working with paths
 
 import re    # for splitting input
 
-from file_utils import remove_file, rename_file, clean_disk_directory
+from file_utils import remove_file, rename_file, clean_disk_directory, file_exists
 
 ######### STENCIL CONSTANTS (DO NOT CHANGE) ######################
 DISK_PATH = pathlib.Path("disk") # path to store files, relative to current directory
@@ -153,12 +153,12 @@ def print_summary(term="") -> str:
 
 ######## HELPERS ##########################################
 
-def format_print_msg(id: int, who: str, subj: str, msg: str=None, print=False) -> str:
+def format_print_msg(id: int, who: str, subj: str, msg: str=None, do_print=False) -> str:
     """
     Create a string representing a message in the correct format to print
     to the terminal:
        - if msg=None, only summary is printed.
-       - if print=True, prints the message to a terminal as well
+       - if do_print=True, prints the message to a terminal as well
 
     DO NOT MODIFY THIS FUNCTION.  We need everyone to use the same format when
     printing so we can test your work in the autograder!
@@ -168,6 +168,7 @@ def format_print_msg(id: int, who: str, subj: str, msg: str=None, print=False) -
     who -- poster
     subj -- subject line
     msg -- body text (optional, only summary printed if set to None)
+    do_print - if true, print the message to the string as well
 
     Returns:
     string of the message in correct format (for autograder)
@@ -183,7 +184,7 @@ def format_print_msg(id: int, who: str, subj: str, msg: str=None, print=False) -
 
     output_str += PRINT_SEP
 
-    if print:
+    if do_print:
         print(output_str)
 
     return output_str

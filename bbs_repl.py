@@ -24,6 +24,17 @@ def show_menu():
     print("  - type R to reset the BBS, deleting all posts!")
     print("  - type H to display this help")
 
+
+def get_username():
+    while True:
+        input_str = input("Enter a username: ")
+        tokens = input_str.split(" ")
+        if len(tokens) != 1:
+            print("Error:  Username must be one word")
+            continue
+
+        return tokens[0].strip()
+
 def main():
     """
     Loop to run the system. It does not do error checking on the inputs that
@@ -32,8 +43,7 @@ def main():
     
     prompt_str = "Enter a command ('H' for help) > "
     print("Welcome to our BBS!")
-    print("What is your username?")
-    username = input("> ")
+    username = get_username()
     bbs.connect(username)
 
     print(bbs.PRINT_SEP)
@@ -49,7 +59,7 @@ def main():
             case "A": 
                 if len(choice) != 3:
                     print("Usage:  A <subj> <msg>")
-                    print("(If <msg> is more than one word, put it in \"double quotes\")")
+                    print("(If <subj> or <msg> is more than one word, put them in \"double quotes\")")
                     continue
                 try:
                     new_id = bbs.post_msg(choice[1], choice[2]) # subject, text
@@ -81,8 +91,10 @@ def main():
                 print("System reset!")
             case "U":
                 # restart menu
-                print("What's your username?")
-                bbs.switch_user(input("> "))
+                new_username = get_username()
+                bbs.switch_user(new_username)
+            case "H":
+                show_menu()
             case _: 
                 print("Unknown command")
 

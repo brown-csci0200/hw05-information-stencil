@@ -44,5 +44,3 @@ def test_sample_From_handout():
     s2 = bbs.print_summary("followup")
     # assert ???  (What might we test at this point?)
 
-    bbs.disconnect()
-
