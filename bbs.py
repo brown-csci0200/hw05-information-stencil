@@ -192,7 +192,7 @@ def format_print_msg(id: int, who: str, subj: str, msg: str=None, do_print=False
 def print_msg(id: int, who: str, subj: str, msg: str=None) -> str:
     """
     Print a message to the terminal in the correct format
-    (This is just a shortcut for calling format_msg with print=True)
+    (This is just a shortcut for calling format_msg with do_print=True)
 
     DO NOT MODIFY THIS FUNCTION.  We need everyone to use the same format when
     printing so we can test your work in the autograder!
@@ -206,7 +206,7 @@ def print_msg(id: int, who: str, subj: str, msg: str=None) -> str:
     Returns:
     string of the message in correct format (for autograder)
     """
-    return format_print_msg(id, who, subj, msg, print=True)
+    return format_print_msg(id, who, subj, msg, do_print=True)
 
 def split_string_exclude_quotes(s) -> list[str]:
     """
