@@ -71,6 +71,7 @@ def main():
                     print("Usage: D <msg-num>")
                     continue
                 bbs.remove_msg(int(choice[1]))
+                print(f"Removed message {int(choice[1])}")
             case "S": 
                 if len(choice) == 1:
                     bbs.print_summary("")
