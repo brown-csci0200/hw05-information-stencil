@@ -134,7 +134,7 @@ def remove_msg(id: int):
 
 def print_summary(term="") -> str:
     """
-    Prints summary of messages that have the search term in the who or subj fields.
+    Prints summary of messages that have the search term in the user or subj fields.
     A search string of "" will match all messages.
     Summary does not need to present messages in order of IDs.
 
@@ -153,7 +153,7 @@ def print_summary(term="") -> str:
 
 ######## HELPERS ##########################################
 
-def format_print_msg(id: int, who: str, subj: str, msg: str=None, do_print=False) -> str:
+def format_print_msg(id: int, user: str, subj: str, msg: str=None, do_print=False) -> str:
     """
     Create a string representing a message in the correct format to print
     to the terminal:
@@ -165,7 +165,7 @@ def format_print_msg(id: int, who: str, subj: str, msg: str=None, do_print=False
 
     Parameters:
     id -- message id
-    who -- poster
+    user -- poster
     subj -- subject line
     msg -- body text (optional, only summary printed if set to None)
     do_print - if true, print the message to the string as well
@@ -176,7 +176,7 @@ def format_print_msg(id: int, who: str, subj: str, msg: str=None, do_print=False
     output_str = ""
     output_str += PRINT_SEP
     output_str += f"\nID: {id}"
-    output_str += f"\nPoster: {who}"
+    output_str += f"\nPoster: {user}"
     output_str += f"\nSubject: {subj}\n"
 
     if msg is not None:
@@ -189,7 +189,7 @@ def format_print_msg(id: int, who: str, subj: str, msg: str=None, do_print=False
 
     return output_str
 
-def print_msg(id: int, who: str, subj: str, msg: str=None) -> str:
+def print_msg(id: int, user: str, subj: str, msg: str=None) -> str:
     """
     Print a message to the terminal in the correct format
     (This is just a shortcut for calling format_msg with do_print=True)
@@ -199,14 +199,14 @@ def print_msg(id: int, who: str, subj: str, msg: str=None) -> str:
 
     Parameters:
     id -- message id
-    who -- poster
+    user -- poster
     subj -- subject line
     msg -- body text (optional, use msg=None to only print summary)
         
     Returns:
     string of the message in correct format (for autograder)
     """
-    return format_print_msg(id, who, subj, msg, do_print=True)
+    return format_print_msg(id, user, subj, msg, do_print=True)
 
 def split_string_exclude_quotes(s) -> list[str]:
     """
